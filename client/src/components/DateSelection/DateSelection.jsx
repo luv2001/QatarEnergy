@@ -1,38 +1,19 @@
-import { TextField } from '@mui/material';
+import { TextField, Typography } from '@mui/material';
 import React, { useState } from 'react'
 
-const DateSelection = () => {
+import {useStyles} from "./styles"
 
-    //From and to date
-    const [fromDate, setFromDate] = useState();
+const DateSelection = ({fromDate, toDate, handleChangeFromDate, handleChangeToDate}) => {
 
-    const handleChangeFromDate = (event) => {
-      setFromDate(event.target.value);
-    };
-
-    const [toDate, setToDate] = useState();
-
-    const handleChangeToDate = (event) => {
-      setToDate(event.target.value);
-    };
-
-    const selectFilterStyles = {
-        display: 'flex',
-        flexDirection: 'row',
-        // margin: '10px',
-        // border : '3px solid black', // Adjust the margin as needed
-        justifyContent: 'space-around',
-        width : '50rem'
-      };
-    
+  const classes = useStyles();
 
   return (
-    <div style={selectFilterStyles}>
-    From Date:
-    <TextField value={fromDate} onChange={handleChangeFromDate} id="outlined-basic" variant="outlined" type="date" />
-    To Date:
-    <TextField value={toDate} onChange={handleChangeToDate} id="outlined-basic" variant="outlined" type="date" />
-  </div>
+    <div className={classes.root}>
+      <Typography>From Date:</Typography>
+      <TextField value={fromDate} onChange={handleChangeFromDate} id="outlined-basic" variant="outlined" type="date" />
+      <Typography>To Date:</Typography>
+      <TextField value={toDate} onChange={handleChangeToDate} id="outlined-basic" variant="outlined" type="date" />
+    </div>
   )
 }
 

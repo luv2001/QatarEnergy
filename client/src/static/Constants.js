@@ -1,4 +1,4 @@
-const wellList = [
+export const wellList = [
     { label: "146L/S", value: "146L/S", key: "146" },
     { label: "24", value: "24", key: "24" },
     { label: "41", value: "41", key: "41" },

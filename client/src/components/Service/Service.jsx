@@ -1,14 +1,16 @@
 import { Box, Button } from '@mui/material'
 import React from 'react'
 import { Link } from 'react-router-dom'
-import Field from './Field'
+import Field from '../Filed/Field'
 
-const Service = ({field}) => {
+import { useStyles } from './styles'
 
-  console.log("Field value in service: " + field)
+const Service = ({field, setField}) => {
+  const classes = useStyles();
+
   return (
     <>
-       <Field field={field}/>
+       <div className={classes.fieldWrapper}> <Field field={field} setField={setField}/> </div>
         <Box sx={{ '& button': { m: 1 } }}>
         <div>
             <Link to='/record'>

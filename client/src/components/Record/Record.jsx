@@ -1,8 +1,13 @@
 import React from 'react';
-import RecordService from './RecordService';
-import Field from './Field';
+import RecordService from '../RecordService';
+import Field from '../Filed/Field';
 
-const Record = ({field}) => {
+import { useStyles } from './styles';
+
+const Record = ({field, setField}) => {
+
+  const classes = useStyles();
+
   const services = [
     "SSV/SCSSV",
     "WHCP",
@@ -22,18 +27,19 @@ const Record = ({field}) => {
     margin: '10px', // Adjust the margin as needed
   };
 
+  console.log(setField)
+
   
   return (
 
     <>
-
-    <Field field={field}/>
+      <div className={classes.fieldWrapper}> <Field field={field} setField={setField}/> </div>
     
       <div style={recordServiceStyle}>
         {services.map((service, index) => (
-          <RecordService key={index} serviceName={service} field={field}/>
+          <RecordService key={index} service={service} field={field}/>
         ))}
-      </div>
+      </div>    
 
     </>
   );
