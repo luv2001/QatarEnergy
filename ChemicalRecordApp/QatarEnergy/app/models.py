@@ -1,14 +1,16 @@
 from django.db import models
+from djongo import models
+
 
 class ChemicalRecord(models.Model):
-    well = models.CharField(verbose_name='Well Number', blank=False)
-    service = models.CharField(max_length=100, verbose_name='Service', blank=False)
-    date_done = models.DateField(verbose_name='Date Done', blank=False)
-    field = models.CharField(max_length=100, verbose_name='Field', blank=True)
-    jacket = models.CharField(max_length=100, verbose_name='Jacket', blank=True)
-    supervisor = models.CharField(max_length=100, verbose_name='Supervisor', blank=True)
-    comments = models.TextField(verbose_name='Comments', blank=True)
-    whj = models.CharField(verbose_name='Whj', blank=True)
+    well = models.CharField(max_length=255, blank=False, verbose_name='Well Number')
+    service = models.CharField(max_length=100, blank=False, verbose_name='Service')
+    date_done = models.DateField(blank=False, verbose_name='Date Done')
+    field = models.CharField(max_length=100, blank=True, verbose_name='Field')
+    jacket = models.CharField(max_length=100, blank=True, verbose_name='Jacket')
+    supervisor = models.CharField(max_length=100, blank=True, verbose_name='Supervisor')
+    comments = models.TextField(blank=True, verbose_name='Comments')
+    whj = models.CharField(max_length=255, blank=True, verbose_name='Whj')
 
     def __str__(self):
         return f"Well {self.well} - {self.service} - {self.date_done}"
