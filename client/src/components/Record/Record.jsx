@@ -26,20 +26,17 @@ const Record = ({field, setField}) => {
     flexDirection: 'column',
     margin: '10px', // Adjust the margin as needed
   };
-
-  console.log(setField)
-
   
   return (
 
     <>
       <div className={classes.fieldWrapper}> <Field field={field} setField={setField}/> </div>
-    
-      <div style={recordServiceStyle}>
+
+     { field ? <div style={recordServiceStyle}>
         {services.map((service, index) => (
           <RecordService key={index} service={service} field={field}/>
         ))}
-      </div>    
+      </div> : <>Please select a field</>}
 
     </>
   );

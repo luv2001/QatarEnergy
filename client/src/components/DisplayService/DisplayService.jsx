@@ -176,11 +176,11 @@ const DisplayService = ({field, setField}) => {
 
                 {type == 'completed' ?  <DisplayServiceCompletedTable service={service} fromDate={fromDate} toDate={toDate} field={field}   completedWells={completedWells} /> : <DisplayServiceTable dueWells={dueWells} service={service} field={field}/>}
 
-                {(service !== null) && (
+                {/* {(service !== null) && (
                   <Button variant="contained" color="primary" onClick={() => {handleDownloadPdf()}}>
                     Download PDF
                   </Button>
-                )}
+                )} */}
 
 
                 </div>

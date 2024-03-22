@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import { Box, Button, TextField, Typography } from '@mui/material';
+import { Alert, Box, Button, Snackbar, TextField, Typography } from '@mui/material';
 import Autocomplete from '@mui/material/Autocomplete';
-import { useNavigate } from "react-router-dom";
 
 
 import {wellList} from "../static/Constants.js"
@@ -11,22 +10,36 @@ import {URL, yesterdayFormatted} from "../Constants/UrlConstants.js"
 
 const RecordService = ({ service, field }) => {
 
+  const [state, setState] = React.useState({
+    open: false,
+    vertical: 'top',
+    horizontal: 'center',
+    message : "",
+    severity : "success"
+  });
+  const { vertical, horizontal, open, message, severity } = state;
+
+  const handleClick = (newState) => () => {
+    console.log("HandleClick", newState)
+    setState({ ...newState, open: true });
+  };
+
+  const handleClose = () => {
+    setState({ ...state, open: false });
+  };
+
   const [wellValue, setWellValue] = useState('');
   const [wellDate, setWellDate] = useState(yesterdayFormatted);
 
-
-  const navigate = useNavigate(); 
-  useEffect(() => {
-    if (!field || field.trim() === '') {
-      navigate('/')
-    }
-  }, [field, navigate]);
-
-
-
   const handleChangeWell = (_, newValue) => {
-    setWellValue(newValue.label);
+    if(newValue){
+      setWellValue(newValue.label);
+    }
   };
+
+  useEffect(()=> {
+      setWellValue("")
+  }, [field])
 
   const handleChangeDate = (event) => {
     setWellDate(event.target.value);
@@ -52,9 +65,10 @@ const RecordService = ({ service, field }) => {
   
       if (response.ok) {
         const data = await response.json();
-        console.log('Data inserted successfully:', data);
+        handleClick({ vertical: 'top', horizontal: 'right' , message : data['message'] })();
       } else {
-        console.error('Failed to insert data. Status:', response.status);
+        const data = await response.json();
+        handleClick({ vertical: 'top', horizontal: 'right' , severity : "error" , message : data['error']})();
       }
     } catch (error) {
       console.error('An error occurred while inserting data:', error);
@@ -70,7 +84,7 @@ const RecordService = ({ service, field }) => {
     flexDirection: 'row',
     margin: '10px', // Adjust the margin as needed
     justifyContent: 'space-around',
-  };
+  }; 
 
   return (
     <div style={recordServiceStyle}>
@@ -84,6 +98,7 @@ const RecordService = ({ service, field }) => {
           options={wellList}
           value={wellValue}
           onChange={handleChangeWell}
+          sx={{ width: 200 }}
           renderInput={(params) => <TextField {...params} label="Well" />}
         />
         <TextField
@@ -99,8 +114,28 @@ const RecordService = ({ service, field }) => {
 
         <Button variant="contained" size="large" onClick={handleSave}> Save </Button>
       </div>
+
+      <Snackbar
+        anchorOrigin={{ vertical, horizontal }}
+        open={open}
+        onClose={handleClose}
+        key={vertical + horizontal}
+      >
+
+        <Alert
+          onClose={handleClose}
+          severity={severity}
+          variant="filled"
+          sx={{ width: '100%' }}
+        >
+          {message}
+        </Alert>
+      </Snackbar>
     </div>
   );
 };
 
 export default RecordService;
+
+
+// TODO : implementing error messgae 

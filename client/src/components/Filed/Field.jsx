@@ -2,6 +2,7 @@ import { Box, Button, FormControl, InputLabel, MenuItem, Select, Typography } fr
 import React from 'react'
 
 import { useStyles } from './styles';
+import { updateWellList } from '../../static/Constants';
 
 const Field = ({field, setField}) => {
 
@@ -10,6 +11,7 @@ const Field = ({field, setField}) => {
   const handleChangeService = (event) => {
     console.log("value: " , event.target.value);
     setField(event.target.value);
+    updateWellList(event.target.value);
   }
 
   return (

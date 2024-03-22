@@ -1,5 +1,7 @@
-import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from '@mui/material';
+import { Button, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from '@mui/material';
 import React from 'react'
+
+import {ArrayToExcel} from "../../Utils.js"
 
 const DisplayServiceCompletedTable = ({ fromDate, toDate, completedWells, service , field}) => {
 
@@ -32,6 +34,7 @@ const DisplayServiceCompletedTable = ({ fromDate, toDate, completedWells, servic
     }
   
     return (
+      <>
       <TableContainer>
         <Table aria-label="simple table">
           <TableHead>
@@ -50,6 +53,8 @@ const DisplayServiceCompletedTable = ({ fromDate, toDate, completedWells, servic
           </TableBody>
         </Table>
       </TableContainer>
+      <Button onClick={() => {ArrayToExcel(field, service, fromDate, toDate, completedWells)}}> Download Excel </Button>
+      </>
     );
   };
   

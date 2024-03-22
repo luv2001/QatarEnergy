@@ -131,4 +131,21 @@ export const wellList = [
     { label: "113", value: "113", key: "113" },
     { label: "146", value: "146", key: "146" },
   ];
-  
+
+export const updateWellList = (field) => {
+
+  // Update the wellList in place
+  wellList.forEach(item => {
+
+    if (item.label.includes('-')) {
+      // Find the index of the first '-' in the label
+      const index = item.label.indexOf('-');
+      
+      // Erase the string till the first '-' (excluding '-')
+      item.label = `${field} - ${item.label.slice(index + 1)}`;
+    }else{
+      item.label = `${field} - ${item.label}`;
+    }
+  });
+
+};
