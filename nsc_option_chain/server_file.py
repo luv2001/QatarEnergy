@@ -11,7 +11,7 @@ from google.auth.transport.requests import Request
 from google.oauth2.service_account import Credentials
 from google_auth_oauthlib.flow import InstalledAppFlow
 from googleapiclient.discovery import build
-
+from datetime import datetime
 # Google Sheets API scope
 SCOPES = ['https://www.googleapis.com/auth/spreadsheets']
 SPREADSHEET_ID = '1QXuHMa_EfFnpgZFlbjxKugBY1ytkXmYfuYI1i-2nU0I'  # Replace with your Google Sheet ID
@@ -29,16 +29,32 @@ def authenticate_google_sheets():
 
 
 # Function to update data in Google Sheets
+# Function to update data in Google Sheets# Function to update data in Google Sheets
+from datetime import datetime
+
+# Function to update data in Google Sheets
 def update_google_sheet(service, data):
-    range_name = f'{SHEET_NAME}!A1'
-    body = {'values': data}
+    # 1) Create the last updated timestamp (for row 1, cell A1)
+    last_updated = f"Last updated time: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}"
+    
+    # -- First update: Only cell A1 --
+    service.spreadsheets().values().update(
+        spreadsheetId=SPREADSHEET_ID,
+        range=f'{SHEET_NAME}!A1',         # Only A1
+        valueInputOption='RAW',
+        body={'values': [[last_updated]]} # Single cell
+    ).execute()
+    
+    # -- Second update: The table from A2 downward --
     result = service.spreadsheets().values().update(
         spreadsheetId=SPREADSHEET_ID,
-        range=range_name,
+        range=f'{SHEET_NAME}!A2',         # Start at row 2
         valueInputOption='RAW',
-        body=body
+        body={'values': data}             # Your table data (list of lists)
     ).execute()
+    
     print(f"{result.get('updatedCells')} cells updated in Google Sheet.")
+
 
 # Set up Chrome options
 chrome_options = Options()
